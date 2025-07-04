@@ -3,353 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Livreure - منصة التوصيل الموريتانية الرائدة</title>
+    <title>ليفرور - توصيل سريع وموثوق</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="screen-fix.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="icon" href="logo.png" type="image/png">
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <img src="logo_graphic.png" alt="Livreure Loading" class="loading-logo">
-        <div class="spinner"></div>
-        <p class="loading-text" data-translate="loading_text">جاري التحميل...</p>
-    </div>
-
-    <!-- Welcome Screen -->
-    <section id="welcome-screen" class="screen active">
-        <header class="main-header">
-            <div class="logo-container">
-                <img src="logo_graphic.png" alt="Livreure Logo" class="logo">
-                <h1>Livreure</h1>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <img src="logo.png" alt="ليفرور شعار">
+                <span>ليفرور</span>
             </div>
             <nav class="main-nav">
-                <button class="lang-btn" data-lang="ar">العربية</button>
-                <button class="lang-btn" data-lang="fr">Français</button>
-                <button class="lang-btn" data-lang="en">English</button>
+                <ul>
+                    <li><a href="#home">الرئيسية</a></li>
+                    <li><a href="#features">الميزات</a></li>
+                    <li><a href="#how-it-works">كيف يعمل</a></li>
+                    <li><a href="#download">التطبيق</a></li>
+                    <li><a href="#contact">اتصل بنا</a></li>
+                </ul>
             </nav>
-        </header>
-        <div class="welcome-content">
-            <h2 data-translate="welcome_title">مرحبًا بك في Livreure</h2>
-            <p data-translate="welcome_subtitle">منصة التوصيل الأولى في موريتانيا</p>
-            <div class="user-type-selection">
-                <button class="user-type-btn" onclick="showUserForm(\'customer\')">
-                    <i class="fas fa-user"></i>
-                    <span data-translate="customer">عميل</span>
-                </button>
-                <button class="user-type-btn" onclick="showUserForm(\'restaurant\')">
-                    <i class="fas fa-store"></i>
-                    <span data-translate="restaurant">مطعم</span>
-                </button>
-                <button class="user-type-btn" onclick="showUserForm(\'delivery\')">
-                    <i class="fas fa-motorcycle"></i>
-                    <span data-translate="delivery_agent">وكيل توصيل</span>
-                </button>
+            <div class="auth-buttons">
+                <button class="btn primary-btn" id="loginBtn">تسجيل الدخول</button>
+                <button class="btn secondary-btn" id="signupBtn">إنشاء حساب</button>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
             </div>
         </div>
-        <footer class="main-footer">
-            <p data-translate="made_with">Made with by ra-one02</p>
-            <a href="https://t.me/raone_002" target="_blank" class="telegram-link">@raone_002</a>
-        </footer>
+    </header>
+
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1>توصيل سريع وموثوق في موريتانيا</h1>
+                <p>اطلب طعامك المفضل، البقالة، أو أي شيء تحتاجه. ليفرور يوصلها إليك بسرعة وأمان.</p>
+                <div class="hero-buttons">
+                    <button class="btn primary-btn">اطلب الآن</button>
+                    <button class="btn secondary-btn">تصفح المطاعم</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="reference1.jpg" alt="توصيل الطعام">
+            </div>
+        </div>
     </section>
 
-    <!-- Authentication Screen -->
-    <section id="auth-screen" class="screen">
-        <div class="auth-container">
-            <h2 id="auth-title"></h2>
-            <p id="auth-subtitle"></p>
-            <div class="auth-tabs">
-                <button class="auth-tab active" onclick="switchAuthTab(\'login\')" data-translate="login">تسجيل الدخول</button>
-                <button class="auth-tab" onclick="switchAuthTab(\'register\')" data-translate="register">التسجيل</button>
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2>لماذا تختار ليفرور؟</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <i class="fas fa-truck"></i>
+                    <h3>توصيل سريع</h3>
+                    <p>نضمن لك وصول طلباتك في أسرع وقت ممكن.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-handshake"></i>
+                    <h3>موثوقية عالية</h3>
+                    <p>سائقو توصيل محترفون ومدربون لضمان سلامة طلباتك.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-utensils"></i>
+                    <h3>خيارات متنوعة</h3>
+                    <p>مجموعة واسعة من المطاعم والمتاجر لتلبية جميع احتياجاتك.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <h3>تغطية شاملة</h3>
+                    <p>نغطي جميع مناطق نواكشوط لخدمتك أينما كنت.</p>
+                </div>
             </div>
-            <form id="auth-form">
-                <div class="input-group" id="name-group" style="display: none;">
-                    <label for="name" data-translate="name">الاسم الكامل</label>
-                    <input type="text" id="name" name="name" required>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works-section">
+        <div class="container">
+            <h2>كيف يعمل ليفرور؟</h2>
+            <div class="steps-grid">
+                <div class="step-item">
+                    <div class="step-icon"><i class="fas fa-search"></i></div>
+                    <h3>1. ابحث</h3>
+                    <p>ابحث عن مطاعمك أو متاجرك المفضلة.</p>
                 </div>
-                <div class="input-group">
-                    <label for="email" data-translate="email">البريد الإلكتروني</label>
-                    <input type="email" id="email" name="email" required>
+                <div class="step-item">
+                    <div class="step-icon"><i class="fas fa-shopping-cart"></i></div>
+                    <h3>2. اطلب</h3>
+                    <p>اختر ما تريد وأضفه إلى سلة التسوق.</p>
                 </div>
-                <div class="input-group">
-                    <label for="password" data-translate="password">كلمة المرور</label>
-                    <div class="password-input-group">
-                        <input type="password" id="password" name="password" required>
-                        <span class="password-toggle" onclick="togglePassword()"><i class="fas fa-eye"></i></span>
-                    </div>
+                <div class="step-item">
+                    <div class="step-icon"><i class="fas fa-motorcycle"></i></div>
+                    <h3>3. استلم</h3>
+                    <p>استلم طلبك عند باب منزلك بسرعة.</p>
                 </div>
-                <div class="input-group" id="confirm-password-group" style="display: none;">
-                    <label for="confirm-password" data-translate="confirm_password">تأكيد كلمة المرور</label>
-                    <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
+        </div>
+    </section>
+
+    <section id="download" class="download-section">
+        <div class="container">
+            <div class="download-content">
+                <h2>حمل تطبيق ليفرور الآن!</h2>
+                <p>متوفر على جميع المنصات. ابدأ بطلبك الأول اليوم.</p>
+                <div class="app-stores">
+                    <img src="reference2.png" alt="متجر التطبيقات">
+                    <img src="reference3.png" alt="جوجل بلاي">
                 </div>
-                <div class="input-group" id="phone-group" style="display: none;">
-                    <label for="phone" data-translate="phone">رقم الهاتف</label>
-                    <input type="tel" id="phone" name="phone" required>
-                </div>
-                <button type="submit" id="auth-btn" data-translate="login">تسجيل الدخول</button>
+            </div>
+            <div class="download-image">
+                <img src="new_logo.png" alt="تطبيق ليفرور">
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2>تواصل معنا</h2>
+            <p>لأي استفسارات أو دعم، لا تتردد في التواصل معنا.</p>
+            <form class="contact-form">
+                <input type="text" placeholder="اسمك">
+                <input type="email" placeholder="بريدك الإلكتروني">
+                <textarea placeholder="رسالتك"></textarea>
+                <button type="submit" class="btn primary-btn">إرسال</button>
             </form>
-            <button class="back-btn" onclick="showWelcomeScreen()" data-translate="back_to_welcome">العودة إلى الشاشة الرئيسية</button>
         </div>
     </section>
 
-    <!-- Customer Dashboard -->
-    <section id="customer-dashboard" class="screen">
-        <header class="dashboard-header">
-            <div class="header-left">
-                <img src="logo_graphic.png" alt="Livreure Logo" class="logo">
-                <h1>Livreure</h1>
-            </div>
-            <div class="header-right">
-                <div class="search-bar">
-                    <input type="text" id="search-input" placeholder="البحث عن مطاعم أو أطباق..." data-translate-placeholder="search_placeholder">
-                    <i class="fas fa-search"></i>
-                </div>
-                <button class="cart-btn" onclick="toggleCart()">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span id="cart-count">0</span>
-                </button>
-                <div class="user-menu-container">
-                    <button class="user-menu-btn">
-                        <i class="fas fa-user-circle"></i>
-                        <span id="customer-name"></span>
-                    </button>
-                    <div class="user-menu">
-                        <a href="#" onclick="logout()" data-translate="logout">تسجيل الخروج</a>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <main class="dashboard-main">
-            <aside class="sidebar">
-                <div class="filter-section">
-                    <h3 data-translate="filters">الفلاتر</h3>
-                    <button class="filter-toggle"><i class="fas fa-filter"></i></button>
-                    <div id="filters-panel" class="filters-panel">
-                        <button class="filter-btn active" data-category="all" data-translate="all">الكل</button>
-                        <button class="filter-btn" data-category="fast-food" data-translate="fast_food">وجبات سريعة</button>
-                        <button class="filter-btn" data-category="traditional" data-translate="traditional">تقليدي</button>
-                        <button class="filter-btn" data-category="desserts" data-translate="desserts">حلويات</button>
-                    </div>
-                </div>
-                <div class="support-chat">
-                    <button class="chat-toggle-btn" onclick="toggleSupportChat()">
-                        <i class="fas fa-comments"></i>
-                        <span data-translate="support_chat">دعم فني</span>
-                    </button>
-                </div>
-            </aside>
-            <section class="content-area">
-                <h3 data-translate="restaurants">المطاعم</h3>
-                <div class="restaurants-grid" id="restaurants-grid">
-                    <!-- Restaurant cards will be loaded here -->
-                </div>
-                <h3 data-translate="my_orders">طلباتي</h3>
-                <div class="orders-list" id="customer-orders-list">
-                    <!-- Customer orders will be loaded here -->
-                </div>
-            </section>
-        </main>
-    </section>
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2024 ليفرور. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
 
-    <!-- Restaurant Dashboard -->
-    <section id="restaurant-dashboard" class="screen">
-        <header class="dashboard-header">
-            <div class="header-left">
-                <img src="logo_graphic.png" alt="Livreure Logo" class="logo">
-                <h1>Livreure</h1>
-            </div>
-            <div class="header-right">
-                <div class="status-toggle">
-                    <label class="switch">
-                        <input type="checkbox" id="restaurant-status-toggle">
-                        <span class="slider round"></span>
-                    </label>
-                    <span class="status-text" data-translate="closed">مغلق</span>
-                </div>
-                <div class="user-menu-container">
-                    <button class="user-menu-btn">
-                        <i class="fas fa-user-circle"></i>
-                        <span id="restaurant-name"></span>
-                    </button>
-                    <div class="user-menu">
-                        <a href="#" onclick="logout()" data-translate="logout">تسجيل الخروج</a>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <main class="dashboard-main">
-            <aside class="sidebar">
-                <button class="tab-btn active" onclick="showRestaurantTab(\'overview\')" data-translate="overview">نظرة عامة</button>
-                <button class="tab-btn" onclick="showRestaurantTab(\'orders\')" data-translate="orders">الطلبات</button>
-                <button class="tab-btn" onclick="showRestaurantTab(\'menu\')" data-translate="menu">قائمة الطعام</button>
-                <button class="tab-btn" onclick="showRestaurantTab(\'settings\')" data-translate="settings">الإعدادات</button>
-            </aside>
-            <section class="content-area">
-                <div id="restaurant-overview-tab" class="tab-content active">
-                    <h3 data-translate="overview">نظرة عامة</h3>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <h4 data-translate="today_orders">طلبات اليوم</h4>
-                            <p id="today-orders">0</p>
-                        </div>
-                        <div class="stat-card">
-                            <h4 data-translate="pending_orders">طلبات معلقة</h4>
-                            <p id="pending-orders">0</p>
-                        </div>
-                        <div class="stat-card">
-                            <h4 data-translate="today_revenue">إيرادات اليوم</h4>
-                            <p id="today-revenue">0</p>
-                        </div>
-                        <div class="stat-card">
-                            <h4 data-translate="rating">التقييم</h4>
-                            <p id="restaurant-rating">0.0</p>
-                        </div>
-                    </div>
-                </div>
-                <div id="restaurant-orders-tab" class="tab-content">
-                    <h3 data-translate="orders">الطلبات</h3>
-                    <div class="orders-list" id="restaurant-orders-list">
-                        <!-- Restaurant orders will be loaded here -->
-                    </div>
-                </div>
-                <div id="restaurant-menu-tab" class="tab-content">
-                    <h3 data-translate="menu">قائمة الطعام</h3>
-                    <button class="add-item-btn" data-translate="add_menu_item">إضافة عنصر جديد</button>
-                    <div class="menu-items-list" id="restaurant-menu-items-list">
-                        <!-- Menu items will be loaded here -->
-                    </div>
-                </div>
-                <div id="restaurant-settings-tab" class="tab-content">
-                    <h3 data-translate="settings">الإعدادات</h3>
-                    <!-- Settings form will go here -->
-                </div>
-            </section>
-        </main>
-    </section>
-
-    <!-- Delivery Dashboard -->
-    <section id="delivery-dashboard" class="screen">
-        <header class="dashboard-header">
-            <div class="header-left">
-                <img src="logo_graphic.png" alt="Livreure Logo" class="logo">
-                <h1>Livreure</h1>
-            </div>
-            <div class="header-right">
-                <div class="status-toggle">
-                    <label class="switch">
-                        <input type="checkbox" id="delivery-status-toggle">
-                        <span class="slider round"></span>
-                    </label>
-                    <span class="status-text" id="status-text" data-translate="unavailable">غير متاح</span>
-                </div>
-                <div class="user-menu-container">
-                    <button class="user-menu-btn">
-                        <i class="fas fa-user-circle"></i>
-                        <span id="delivery-name"></span>
-                    </button>
-                    <div class="user-menu">
-                        <a href="#" onclick="logout()" data-translate="logout">تسجيل الخروج</a>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <main class="dashboard-main">
-            <aside class="sidebar">
-                <button class="tab-btn active" onclick="showDeliveryTab(\'overview\')" data-translate="overview">نظرة عامة</button>
-                <button class="tab-btn" onclick="showDeliveryTab(\'available\')" data-translate="available_orders">الطلبات المتاحة</button>
-                <button class="tab-btn" onclick="showDeliveryTab(\'current\')" data-translate="current_deliveries">التوصيلات الحالية</button>
-                <button class="tab-btn" onclick="showDeliveryTab(\'history\')" data-translate="delivery_history">سجل التوصيل</button>
-            </aside>
-            <section class="content-area">
-                <div id="delivery-overview-tab" class="tab-content active">
-                    <h3 data-translate="overview">نظرة عامة</h3>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <h4 data-translate="completed_deliveries">توصيلات مكتملة</h4>
-                            <p id="completed-deliveries">0</p>
-                        </div>
-                        <div class="stat-card">
-                            <h4 data-translate="today_earnings">أرباح اليوم</h4>
-                            <p id="today-earnings">0</p>
-                        </div>
-                        <div class="stat-card">
-                            <h4 data-translate="rating">التقييم</h4>
-                            <p id="delivery-rating">0.0</p>
-                        </div>
-                        <div class="stat-card">
-                            <h4 data-translate="avg_delivery_time">متوسط وقت التوصيل</h4>
-                            <p id="avg-delivery-time">0</p>
-                        </div>
-                    </div>
-                </div>
-                <div id="delivery-available-tab" class="tab-content">
-                    <h3 data-translate="available_orders">الطلبات المتاحة</h3>
-                    <div class="orders-list" id="available-orders-list">
-                        <!-- Available orders will be loaded here -->
-                    </div>
-                </div>
-                <div id="delivery-current-tab" class="tab-content">
-                    <h3 data-translate="current_deliveries">التوصيلات الحالية</h3>
-                    <div class="orders-list" id="current-deliveries-list">
-                        <!-- Current deliveries will be loaded here -->
-                    </div>
-                </div>
-                <div id="delivery-history-tab" class="tab-content">
-                    <h3 data-translate="delivery_history">سجل التوصيل</h3>
-                    <div class="orders-list" id="delivery-history-list">
-                        <!-- Delivery history will be loaded here -->
-                    </div>
-                </div>
-            </section>
-        </main>
-    </section>
-
-    <!-- Restaurant Modal -->
-    <div id="restaurant-modal" class="modal">
+    <div id="loginModal" class="modal">
         <div class="modal-content">
-            <span class="close-button" onclick="closeModal()">&times;</span>
-            <h2 id="modal-restaurant-name"></h2>
-            <div id="restaurant-details">
-                <!-- Restaurant details and menu will be loaded here -->
-            </div>
+            <span class="close-button">&times;</span>
+            <h2>تسجيل الدخول</h2>
+            <form>
+                <input type="email" placeholder="البريد الإلكتروني" required>
+                <input type="password" placeholder="كلمة المرور" required>
+                <button type="submit" class="btn primary-btn">دخول</button>
+            </form>
+            <p>ليس لديك حساب؟ <a href="#" id="switchToSignup">إنشاء حساب</a></p>
         </div>
     </div>
 
-    <!-- Cart Sidebar -->
-    <div id="cart-sidebar" class="cart-sidebar">
-        <div class="cart-header">
-            <h3 data-translate="shopping_cart">سلة التسوق</h3>
-            <button class="close-cart-btn" onclick="toggleCart()">&times;</button>
-        </div>
-        <div class="cart-items" id="cart-items">
-            <!-- Cart items will be loaded here -->
-        </div>
-        <div class="cart-footer">
-            <div class="cart-total">
-                <span data-translate="total">الإجمالي:</span>
-                <span id="cart-total">0 MRU</span>
-            </div>
-            <button class="checkout-btn" onclick="proceedToCheckout()" data-translate="checkout">إتمام الطلب</button>
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>إنشاء حساب</h2>
+            <form>
+                <input type="text" placeholder="الاسم الكامل" required>
+                <input type="email" placeholder="البريد الإلكتروني" required>
+                <input type="password" placeholder="كلمة المرور" required>
+                <input type="password" placeholder="تأكيد كلمة المرور" required>
+                <button type="submit" class="btn primary-btn">إنشاء</button>
+            </form>
+            <p>لديك حساب بالفعل؟ <a href="#" id="switchToLogin">تسجيل الدخول</a></p>
         </div>
     </div>
 
-    <!-- Support Chat Window -->
-    <div id="chat-window" class="chat-window">
-        <div class="chat-header">
-            <h3 data-translate="support_chat">دعم فني</h3>
-            <button class="close-chat-btn" onclick="toggleSupportChat()">&times;</button>
-        </div>
-        <div class="chat-messages" id="chat-messages">
-            <!-- Chat messages will appear here -->
-        </div>
-        <div class="chat-input">
-            <input type="text" id="chat-input-field" placeholder="اكتب رسالتك..." data-translate-placeholder="type_message">
-            <button onclick="sendChatMessage()" data-translate="send">إرسال</button>
-        </div>
-    </div>
-
-    <script src="translations.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
