@@ -3,378 +3,353 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Livreure - منصة التوصيل</title>
+    <title>Livreure - منصة التوصيل الموريتانية الرائدة</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="logo.png" type="image/png">
 </head>
 <body>
     <!-- Loading Screen -->
-    <div id="loading-screen" class="loading-screen">
+    <div id="loading-screen">
         <img src="loading_logo.png" alt="Livreure Loading" class="loading-logo">
         <div class="spinner"></div>
-        <p>جاري التحميل...</p>
+        <p class="loading-text" data-translate="loading_text">جاري التحميل...</p>
     </div>
 
-    <!-- Main Content -->
-    <div id="main-content" class="main-content">
-        <!-- Header -->
-        <header class="header">
-            <div class="container">
-                <div class="logo">
-                    <img src="logo.png" alt="Livreure Logo">
-                    <h1>Livreure</h1>
+    <!-- Welcome Screen -->
+    <section id="welcome-screen" class="screen active">
+        <header class="main-header">
+            <div class="logo-container">
+                <img src="logo.png" alt="Livreure Logo" class="logo">
+                <h1>Livreure</h1>
+            </div>
+            <nav class="main-nav">
+                <button class="lang-btn" data-lang="ar">العربية</button>
+                <button class="lang-btn" data-lang="fr">Français</button>
+                <button class="lang-btn" data-lang="en">English</button>
+            </nav>
+        </header>
+        <div class="welcome-content">
+            <h2 data-translate="welcome_title">مرحبًا بك في Livreure</h2>
+            <p data-translate="welcome_subtitle">منصة التوصيل الأولى في موريتانيا</p>
+            <div class="user-type-selection">
+                <button class="user-type-btn" onclick="showUserForm(\'customer\')">
+                    <i class="fas fa-user"></i>
+                    <span data-translate="customer">عميل</span>
+                </button>
+                <button class="user-type-btn" onclick="showUserForm(\'restaurant\')">
+                    <i class="fas fa-store"></i>
+                    <span data-translate="restaurant">مطعم</span>
+                </button>
+                <button class="user-type-btn" onclick="showUserForm(\'delivery\')">
+                    <i class="fas fa-motorcycle"></i>
+                    <span data-translate="delivery_agent">وكيل توصيل</span>
+                </button>
+            </div>
+        </div>
+        <footer class="main-footer">
+            <p data-translate="made_with">Made with by ra-one02</p>
+            <a href="https://t.me/raone_002" target="_blank" class="telegram-link">@raone_002</a>
+        </footer>
+    </section>
+
+    <!-- Authentication Screen -->
+    <section id="auth-screen" class="screen">
+        <div class="auth-container">
+            <h2 id="auth-title"></h2>
+            <p id="auth-subtitle"></p>
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab(\'login\')" data-translate="login">تسجيل الدخول</button>
+                <button class="auth-tab" onclick="switchAuthTab(\'register\')" data-translate="register">التسجيل</button>
+            </div>
+            <form id="auth-form">
+                <div class="input-group" id="name-group" style="display: none;">
+                    <label for="name" data-translate="name">الاسم الكامل</label>
+                    <input type="text" id="name" name="name" required>
                 </div>
-                <nav class="nav">
-                    <ul>
-                        <li><a href="#" class="active">الرئيسية</a></li>
-                        <li><a href="#">المطاعم</a></li>
-                        <li><a href="#">عن المنصة</a></li>
-                        <li><a href="#">اتصل بنا</a></li>
-                    </ul>
-                </nav>
-                <div class="user-actions">
-                    <button class="btn primary-btn" onclick="showUserForm(\'customer\')">تسجيل الدخول</button>
-                    <button class="btn secondary-btn" onclick="toggleCart()"><i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span></button>
-                    <div class="lang-switcher">
-                        <button class="lang-btn" data-lang="ar">AR</button>
-                        <button class="lang-btn" data-lang="fr">FR</button>
-                        <button class="lang-btn" data-lang="en">EN</button>
+                <div class="input-group">
+                    <label for="email" data-translate="email">البريد الإلكتروني</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password" data-translate="password">كلمة المرور</label>
+                    <div class="password-input-group">
+                        <input type="password" id="password" name="password" required>
+                        <span class="password-toggle" onclick="togglePassword()"><i class="fas fa-eye"></i></span>
+                    </div>
+                </div>
+                <div class="input-group" id="confirm-password-group" style="display: none;">
+                    <label for="confirm-password" data-translate="confirm_password">تأكيد كلمة المرور</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                </div>
+                <div class="input-group" id="phone-group" style="display: none;">
+                    <label for="phone" data-translate="phone">رقم الهاتف</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <button type="submit" id="auth-btn" data-translate="login">تسجيل الدخول</button>
+            </form>
+            <button class="back-btn" onclick="showWelcomeScreen()" data-translate="back_to_welcome">العودة إلى الشاشة الرئيسية</button>
+        </div>
+    </section>
+
+    <!-- Customer Dashboard -->
+    <section id="customer-dashboard" class="screen">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <img src="logo.png" alt="Livreure Logo" class="logo">
+                <h2 data-translate="customer_dashboard">لوحة تحكم العميل</h2>
+            </div>
+            <div class="header-right">
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="البحث عن مطاعم أو أطباق..." data-translate-placeholder="search_placeholder">
+                    <i class="fas fa-search"></i>
+                </div>
+                <button class="cart-btn" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </button>
+                <div class="user-menu-container">
+                    <button class="user-menu-btn">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="customer-name"></span>
+                    </button>
+                    <div class="user-menu">
+                        <a href="#" onclick="logout()" data-translate="logout">تسجيل الخروج</a>
                     </div>
                 </div>
             </div>
         </header>
-
-        <!-- Welcome Screen -->
-        <section id="welcome-screen" class="screen active welcome-screen">
-            <div class="container">
-                <div class="welcome-content">
-                    <h2>اكتشف أفضل المطاعم وخدمات التوصيل في موريتانيا</h2>
-                    <p>اطلب طعامك المفضل من مئات المطاعم المحلية، أو انضم كشريك توصيل أو مطعم.</p>
-                    <div class="user-type-selection">
-                        <button class="user-type-card" onclick="showUserForm(\'customer\')">
-                            <i class="fas fa-user"></i>
-                            <h3>أنا عميل</h3>
-                            <p>اطلب طعامك المفضل بسهولة وسرعة.</p>
-                        </button>
-                        <button class="user-type-card" onclick="showUserForm(\'restaurant\')">
-                            <i class="fas fa-store"></i>
-                            <h3>أنا مطعم</h3>
-                            <p>وسع نطاق عملك ووصل لعملاء جدد.</p>
-                        </button>
-                        <button class="user-type-card" onclick="showUserForm(\'delivery\')">
-                            <i class="fas fa-motorcycle"></i>
-                            <h3>أنا وكيل توصيل</h3>
-                            <p>اكسب المال من خلال توصيل الطلبات.</p>
-                        </button>
+        <main class="dashboard-main">
+            <aside class="sidebar">
+                <div class="filter-section">
+                    <h3 data-translate="filters">الفلاتر</h3>
+                    <button class="filter-toggle"><i class="fas fa-filter"></i></button>
+                    <div id="filters-panel" class="filters-panel">
+                        <button class="filter-btn active" data-category="all" data-translate="all">الكل</button>
+                        <button class="filter-btn" data-category="fast-food" data-translate="fast_food">وجبات سريعة</button>
+                        <button class="filter-btn" data-category="traditional" data-translate="traditional">تقليدي</button>
+                        <button class="filter-btn" data-category="desserts" data-translate="desserts">حلويات</button>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Auth Screen -->
-        <section id="auth-screen" class="screen auth-screen">
-            <div class="container">
-                <div class="auth-form-container">
-                    <h2 id="auth-title">تسجيل الدخول</h2>
-                    <p id="auth-subtitle">سجل الدخول إلى حسابك أو أنشئ حسابًا جديدًا.</p>
-                    <div class="auth-tabs">
-                        <button class="auth-tab active" onclick="switchAuthTab(\'login\')">تسجيل الدخول</button>
-                        <button class="auth-tab" onclick="switchAuthTab(\'register\')">إنشاء حساب</button>
-                    </div>
-                    <form id="auth-form">
-                        <div class="form-group" id="name-group" style="display: none;">
-                            <label for="name">الاسم الكامل</label>
-                            <input type="text" id="name" name="name" placeholder="أدخل اسمك الكامل">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">البريد الإلكتروني</label>
-                            <input type="email" id="email" name="email" placeholder="أدخل بريدك الإلكتروني" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">كلمة المرور</label>
-                            <div class="password-input">
-                                <input type="password" id="password" name="password" placeholder="أدخل كلمة المرور" required>
-                                <span class="password-toggle" onclick="togglePassword()"><i class="fas fa-eye"></i></span>
-                            </div>
-                        </div>
-                        <div class="form-group" id="confirm-password-group" style="display: none;">
-                            <label for="confirm-password">تأكيد كلمة المرور</label>
-                            <input type="password" id="confirm-password" name="confirm_password" placeholder="أعد إدخال كلمة المرور">
-                        </div>
-                        <div class="form-group" id="phone-group" style="display: none;">
-                            <label for="phone">رقم الهاتف</label>
-                            <input type="tel" id="phone" name="phone" placeholder="أدخل رقم هاتفك">
-                        </div>
-                        <button type="submit" class="btn primary-btn" id="auth-btn">تسجيل الدخول</button>
-                    </form>
-                    <p class="forgot-password">نسيت كلمة المرور؟ <a href="#">استعادة</a></p>
+                <div class="support-chat">
+                    <button class="chat-toggle-btn" onclick="toggleSupportChat()">
+                        <i class="fas fa-comments"></i>
+                        <span data-translate="support_chat">دعم فني</span>
+                    </button>
                 </div>
-            </div>
-        </section>
-
-        <!-- Customer Dashboard -->
-        <section id="customer-dashboard" class="screen customer-dashboard">
-            <div class="container">
-                <div class="dashboard-header">
-                    <h2>مرحبًا بك، <span id="customer-name">عميل</span>!</h2>
-                    <div class="dashboard-actions">
-                        <div class="search-bar">
-                            <input type="text" id="search-input" placeholder="ابحث عن مطاعم أو أطباق...">
-                            <button><i class="fas fa-search"></i></button>
-                        </div>
-                        <button class="btn secondary-btn filter-toggle"><i class="fas fa-filter"></i> الفلاتر</button>
-                        <div class="user-menu-btn" onclick="toggleUserMenu()">
-                            <i class="fas fa-user-circle"></i>
-                        </div>
-                        <div class="user-menu">
-                            <ul>
-                                <li><a href="#"><i class="fas fa-user-cog"></i> ملفي الشخصي</a></li>
-                                <li><a href="#"><i class="fas fa-history"></i> طلباتي السابقة</a></li>
-                                <li><a href="#"><i class="fas fa-question-circle"></i> المساعدة</a></li>
-                                <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="filters-panel" class="filters-panel">
-                    <h3>فئات المطاعم</h3>
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" data-category="all">الكل</button>
-                        <button class="filter-btn" data-category="fast-food">وجبات سريعة</button>
-                        <button class="filter-btn" data-category="traditional">تقليدي</button>
-                        <button class="filter-btn" data-category="desserts">حلويات</button>
-                        <button class="filter-btn" data-category="drinks">مشروبات</button>
-                    </div>
-                </div>
-
+            </aside>
+            <section class="content-area">
+                <h3 data-translate="restaurants">المطاعم</h3>
                 <div class="restaurants-grid" id="restaurants-grid">
-                    <!-- Restaurants will be loaded here by JavaScript -->
+                    <!-- Restaurant cards will be loaded here -->
                 </div>
+                <h3 data-translate="my_orders">طلباتي</h3>
+                <div class="orders-list" id="customer-orders-list">
+                    <!-- Customer orders will be loaded here -->
+                </div>
+            </section>
+        </main>
+    </section>
 
-                <div class="orders-section">
-                    <h3>طلباتي الأخيرة</h3>
-                    <div class="orders-list" id="customer-orders-list">
-                        <!-- Customer orders will be loaded here by JavaScript -->
+    <!-- Restaurant Dashboard -->
+    <section id="restaurant-dashboard" class="screen">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <img src="logo.png" alt="Livreure Logo" class="logo">
+                <h2 data-translate="restaurant_dashboard">لوحة تحكم المطعم</h2>
+            </div>
+            <div class="header-right">
+                <div class="status-toggle">
+                    <label class="switch">
+                        <input type="checkbox" id="restaurant-status-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="status-text" data-translate="closed">مغلق</span>
+                </div>
+                <div class="user-menu-container">
+                    <button class="user-menu-btn">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="restaurant-name"></span>
+                    </button>
+                    <div class="user-menu">
+                        <a href="#" onclick="logout()" data-translate="logout">تسجيل الخروج</a>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Restaurant Dashboard -->
-        <section id="restaurant-dashboard" class="screen restaurant-dashboard">
-            <div class="container">
-                <div class="dashboard-header">
-                    <h2>مرحبًا بك، <span id="restaurant-name">مطعم</span>!</h2>
-                    <div class="dashboard-actions">
-                        <div class="status-toggle">
-                            <label class="switch">
-                                <input type="checkbox" id="restaurant-status-toggle" checked>
-                                <span class="slider round"></span>
-                            </label>
-                            <span class="status-text">مفتوح</span>
+        </header>
+        <main class="dashboard-main">
+            <aside class="sidebar">
+                <button class="tab-btn active" onclick="showRestaurantTab(\'overview\')" data-translate="overview">نظرة عامة</button>
+                <button class="tab-btn" onclick="showRestaurantTab(\'orders\')" data-translate="orders">الطلبات</button>
+                <button class="tab-btn" onclick="showRestaurantTab(\'menu\')" data-translate="menu">قائمة الطعام</button>
+                <button class="tab-btn" onclick="showRestaurantTab(\'settings\')" data-translate="settings">الإعدادات</button>
+            </aside>
+            <section class="content-area">
+                <div id="restaurant-overview-tab" class="tab-content active">
+                    <h3 data-translate="overview">نظرة عامة</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4 data-translate="today_orders">طلبات اليوم</h4>
+                            <p id="today-orders">0</p>
                         </div>
-                        <div class="user-menu-btn" onclick="toggleUserMenu()">
-                            <i class="fas fa-user-circle"></i>
+                        <div class="stat-card">
+                            <h4 data-translate="pending_orders">طلبات معلقة</h4>
+                            <p id="pending-orders">0</p>
                         </div>
-                        <div class="user-menu">
-                            <ul>
-                                <li><a href="#"><i class="fas fa-user-cog"></i> ملفي الشخصي</a></li>
-                                <li><a href="#"><i class="fas fa-utensils"></i> إدارة القائمة</a></li>
-                                <li><a href="#"><i class="fas fa-chart-line"></i> الإحصائيات</a></li>
-                                <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
-                            </ul>
+                        <div class="stat-card">
+                            <h4 data-translate="today_revenue">إيرادات اليوم</h4>
+                            <p id="today-revenue">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4 data-translate="rating">التقييم</h4>
+                            <p id="restaurant-rating">0.0</p>
                         </div>
                     </div>
                 </div>
-
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h3>طلبات اليوم</h3>
-                        <p id="today-orders">0</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3>طلبات معلقة</h3>
-                        <p id="pending-orders">0</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3>إيرادات اليوم</h3>
-                        <p id="today-revenue">0</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3>تقييم المطعم</h3>
-                        <p id="restaurant-rating">0.0</p>
-                    </div>
-                </div>
-
-                <div class="tabs-navigation">
-                    <button class="tab-btn active" onclick="showRestaurantTab(\'orders\')">الطلبات</button>
-                    <button class="tab-btn" onclick="showRestaurantTab(\'menu\')">القائمة</button>
-                    <button class="tab-btn" onclick="showRestaurantTab(\'reviews\')">التقييمات</button>
-                </div>
-
-                <div id="restaurant-orders-tab" class="tab-content active">
-                    <h3>الطلبات الواردة</h3>
+                <div id="restaurant-orders-tab" class="tab-content">
+                    <h3 data-translate="orders">الطلبات</h3>
                     <div class="orders-list" id="restaurant-orders-list">
-                        <!-- Restaurant orders will be loaded here by JavaScript -->
+                        <!-- Restaurant orders will be loaded here -->
                     </div>
                 </div>
-
                 <div id="restaurant-menu-tab" class="tab-content">
-                    <h3>إدارة القائمة</h3>
-                    <button class="btn primary-btn add-item-btn"><i class="fas fa-plus"></i> إضافة طبق جديد</button>
-                    <div class="menu-items-management" id="restaurant-menu-items">
-                        <!-- Menu items will be loaded here by JavaScript -->
+                    <h3 data-translate="menu">قائمة الطعام</h3>
+                    <button class="add-item-btn" data-translate="add_menu_item">إضافة عنصر جديد</button>
+                    <div class="menu-items-list" id="restaurant-menu-items-list">
+                        <!-- Menu items will be loaded here -->
                     </div>
                 </div>
+                <div id="restaurant-settings-tab" class="tab-content">
+                    <h3 data-translate="settings">الإعدادات</h3>
+                    <!-- Settings form will go here -->
+                </div>
+            </section>
+        </main>
+    </section>
 
-                <div id="restaurant-reviews-tab" class="tab-content">
-                    <h3>تقييمات العملاء</h3>
-                    <div class="reviews-list" id="restaurant-reviews-list">
-                        <!-- Reviews will be loaded here by JavaScript -->
+    <!-- Delivery Dashboard -->
+    <section id="delivery-dashboard" class="screen">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <img src="logo.png" alt="Livreure Logo" class="logo">
+                <h2 data-translate="delivery_dashboard">لوحة تحكم وكيل التوصيل</h2>
+            </div>
+            <div class="header-right">
+                <div class="status-toggle">
+                    <label class="switch">
+                        <input type="checkbox" id="delivery-status-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="status-text" id="status-text" data-translate="unavailable">غير متاح</span>
+                </div>
+                <div class="user-menu-container">
+                    <button class="user-menu-btn">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="delivery-name"></span>
+                    </button>
+                    <div class="user-menu">
+                        <a href="#" onclick="logout()" data-translate="logout">تسجيل الخروج</a>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Delivery Dashboard -->
-        <section id="delivery-dashboard" class="screen delivery-dashboard">
-            <div class="container">
-                <div class="dashboard-header">
-                    <h2>مرحبًا بك، <span id="delivery-name">وكيل توصيل</span>!</h2>
-                    <div class="dashboard-actions">
-                        <div class="status-toggle">
-                            <label class="switch">
-                                <input type="checkbox" id="delivery-status-toggle" checked>
-                                <span class="slider round"></span>
-                            </label>
-                            <span class="status-text" id="status-text">متاح</span>
+        </header>
+        <main class="dashboard-main">
+            <aside class="sidebar">
+                <button class="tab-btn active" onclick="showDeliveryTab(\'overview\')" data-translate="overview">نظرة عامة</button>
+                <button class="tab-btn" onclick="showDeliveryTab(\'available\')" data-translate="available_orders">الطلبات المتاحة</button>
+                <button class="tab-btn" onclick="showDeliveryTab(\'current\')" data-translate="current_deliveries">التوصيلات الحالية</button>
+                <button class="tab-btn" onclick="showDeliveryTab(\'history\')" data-translate="delivery_history">سجل التوصيل</button>
+            </aside>
+            <section class="content-area">
+                <div id="delivery-overview-tab" class="tab-content active">
+                    <h3 data-translate="overview">نظرة عامة</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4 data-translate="completed_deliveries">توصيلات مكتملة</h4>
+                            <p id="completed-deliveries">0</p>
                         </div>
-                        <div class="user-menu-btn" onclick="toggleUserMenu()">
-                            <i class="fas fa-user-circle"></i>
+                        <div class="stat-card">
+                            <h4 data-translate="today_earnings">أرباح اليوم</h4>
+                            <p id="today-earnings">0</p>
                         </div>
-                        <div class="user-menu">
-                            <ul>
-                                <li><a href="#"><i class="fas fa-user-cog"></i> ملفي الشخصي</a></li>
-                                <li><a href="#"><i class="fas fa-chart-line"></i> إحصائياتي</a></li>
-                                <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
-                            </ul>
+                        <div class="stat-card">
+                            <h4 data-translate="rating">التقييم</h4>
+                            <p id="delivery-rating">0.0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4 data-translate="avg_delivery_time">متوسط وقت التوصيل</h4>
+                            <p id="avg-delivery-time">0</p>
                         </div>
                     </div>
                 </div>
-
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h3>توصيلات مكتملة</h3>
-                        <p id="completed-deliveries">0</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3>أرباح اليوم</h3>
-                        <p id="today-earnings">0</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3>تقييمي</h3>
-                        <p id="delivery-rating">0.0</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3>متوسط وقت التوصيل</h3>
-                        <p id="avg-delivery-time">0 دقيقة</p>
-                    </div>
-                </div>
-
-                <div class="tabs-navigation">
-                    <button class="tab-btn active" onclick="showDeliveryTab(\'available\')">الطلبات المتاحة</button>
-                    <button class="tab-btn" onclick="showDeliveryTab(\'current\')">طلباتي الحالية</button>
-                    <button class="tab-btn" onclick="showDeliveryTab(\'history\')">سجل التوصيل</button>
-                </div>
-
-                <div id="delivery-available-tab" class="tab-content active">
-                    <h3>الطلبات المتاحة للتوصيل</h3>
+                <div id="delivery-available-tab" class="tab-content">
+                    <h3 data-translate="available_orders">الطلبات المتاحة</h3>
                     <div class="orders-list" id="available-orders-list">
-                        <!-- Available orders will be loaded here by JavaScript -->
+                        <!-- Available orders will be loaded here -->
                     </div>
                 </div>
-
                 <div id="delivery-current-tab" class="tab-content">
-                    <h3>طلباتي الحالية</h3>
-                    <div class="orders-list" id="current-orders-list">
-                        <!-- Current orders will be loaded here by JavaScript -->
+                    <h3 data-translate="current_deliveries">التوصيلات الحالية</h3>
+                    <div class="orders-list" id="current-deliveries-list">
+                        <!-- Current deliveries will be loaded here -->
                     </div>
                 </div>
-
                 <div id="delivery-history-tab" class="tab-content">
-                    <h3>سجل التوصيل</h3>
+                    <h3 data-translate="delivery_history">سجل التوصيل</h3>
                     <div class="orders-list" id="delivery-history-list">
-                        <!-- Delivery history will be loaded here by JavaScript -->
+                        <!-- Delivery history will be loaded here -->
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </main>
+    </section>
 
-        <!-- Restaurant Modal -->
-        <div id="restaurant-modal" class="modal">
-            <div class="modal-content">
-                <span class="close-button" onclick="closeModal()">&times;</span>
-                <h2 id="modal-restaurant-name">اسم المطعم</h2>
-                <div id="restaurant-details">
-                    <!-- Restaurant details and menu will be loaded here -->
-                </div>
+    <!-- Restaurant Modal -->
+    <div id="restaurant-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2 id="modal-restaurant-name"></h2>
+            <div id="restaurant-details">
+                <!-- Restaurant details and menu will be loaded here -->
             </div>
         </div>
-
-        <!-- Cart Sidebar -->
-        <div id="cart-sidebar" class="cart-sidebar">
-            <div class="cart-header">
-                <h3>سلة التسوق</h3>
-                <button class="close-cart-btn" onclick="toggleCart()">&times;</button>
-            </div>
-            <div class="cart-items" id="cart-items">
-                <!-- Cart items will be loaded here -->
-            </div>
-            <div class="cart-footer">
-                <div class="cart-total">
-                    <span>الإجمالي:</span>
-                    <span id="cart-total">0 أوقية</span>
-                </div>
-                <button class="btn primary-btn" onclick="proceedToCheckout()">إتمام الطلب</button>
-            </div>
-        </div>
-
-        <!-- Support Chat -->
-        <div id="chat-icon" onclick="toggleSupportChat()">
-            <i class="fab fa-whatsapp"></i>
-        </div>
-        <div id="chat-window" class="chat-window">
-            <div class="chat-header">
-                <h3>الدعم الفني</h3>
-                <button class="close-chat-btn" onclick="toggleSupportChat()">&times;</button>
-            </div>
-            <div class="chat-messages" id="chat-messages">
-                <!-- Chat messages will appear here -->
-            </div>
-            <div class="chat-input">
-                <input type="text" id="chat-input-field" placeholder="اكتب رسالتك...">
-                <button onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="container">
-                <p>&copy; 2024 Livreure. جميع الحقوق محفوظة.</p>
-                <p>Made with by ra-one02</p>
-                <a href="https://t.me/raone_002" target="_blank" class="telegram-link"></a>
-            </div>
-        </footer>
-
-        <!-- Notification Container -->
-        <div id="notification-container" class="notification-container"></div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3 data-translate="shopping_cart">سلة التسوق</h3>
+            <button class="close-cart-btn" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be loaded here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span data-translate="total">الإجمالي:</span>
+                <span id="cart-total">0 MRU</span>
+            </div>
+            <button class="checkout-btn" onclick="proceedToCheckout()" data-translate="checkout">إتمام الطلب</button>
+        </div>
+    </div>
+
+    <!-- Support Chat Window -->
+    <div id="chat-window" class="chat-window">
+        <div class="chat-header">
+            <h3 data-translate="support_chat">دعم فني</h3>
+            <button class="close-chat-btn" onclick="toggleSupportChat()">&times;</button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <!-- Chat messages will appear here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chat-input-field" placeholder="اكتب رسالتك..." data-translate-placeholder="type_message">
+            <button onclick="sendChatMessage()" data-translate="send">إرسال</button>
+        </div>
+    </div>
+
     <script src="translations.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
-
 

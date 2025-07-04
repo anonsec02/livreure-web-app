@@ -25,13 +25,11 @@ function initializeApp() {
     // Check for existing session
     checkExistingSession();
     
-    // Hide loading screen
-    setTimeout(() => {
-        hideLoadingScreen();
-    }, 2000);
-    
     // Load initial data
-    loadInitialData();
+    loadInitialData().then(() => {
+        // Hide loading screen only after initial data is loaded
+        hideLoadingScreen();
+    });
 }
 
 function setupEventListeners() {
@@ -723,7 +721,7 @@ function createRestaurantOrderCard(order) {
                 ${order.items.map(item => `
                     <div class="order-item">
                         <span>${item.name} x${item.quantity}</span>
-                        <span>${item.price * item.quantity} ${t('ouguiya')}</span>
+                        <span>${item.price * item.quantity}</span>
                     </div>
                 `).join('')}
             </div>
@@ -1149,6 +1147,7 @@ async function loadInitialData() {
     try {
         // Load any initial data needed for the app
         console.log('Loading initial data...');
+        // Example: await apiRequest('/some-initial-data');
     } catch (error) {
         console.error('Error loading initial data:', error);
     }
@@ -1178,4 +1177,6 @@ window.updateOrderStatus = updateOrderStatus;
 window.acceptDeliveryOrder = acceptDeliveryOrder;
 window.toggleSupportChat = toggleSupportChat;
 window.sendChatMessage = sendChatMessage;
+
+
 
