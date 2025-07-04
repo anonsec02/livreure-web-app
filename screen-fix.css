@@ -1,0 +1,36 @@
+/* Screen Management Fix */
+.screen {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+}
+
+.screen.active {
+    display: flex !important;
+}
+
+/* Ensure welcome screen is visible by default */
+#welcome-screen {
+    display: flex;
+}
+
+/* Hide other screens by default */
+#auth-screen,
+#customer-dashboard,
+#restaurant-dashboard,
+#delivery-dashboard {
+    display: none;
+}
+
+/* When screens are active, show them */
+#auth-screen.active,
+#customer-dashboard.active,
+#restaurant-dashboard.active,
+#delivery-dashboard.active {
+    display: flex !important;
+}
+

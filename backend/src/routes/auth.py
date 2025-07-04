@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 import datetime
+import os
 from functools import wraps
 from src.models.user import db, User
 from src.models.customer import Customer
@@ -12,7 +13,7 @@ from src.models.admin import Admin
 auth_bp = Blueprint('auth', __name__)
 
 # JWT Secret Key (should be in environment variables in production)
-JWT_SECRET = 'your-secret-key-here'
+JWT_SECRET = os.environ.get('JWT_SECRET', 'livreure-mauritania-secret-key-2024-production')
 
 def token_required(f):
     @wraps(f)

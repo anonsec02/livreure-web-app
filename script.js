@@ -1,6 +1,6 @@
 // Livreure Platform - Main JavaScript File
 // API Configuration
-const API_BASE_URL = 'https://livreure-web-app-backend.onrender.com/api';
+const API_BASE_URL = window.location.origin + '/api';
 const WHATSAPP_NUMBER = '+22241377131';
 
 // Global State
