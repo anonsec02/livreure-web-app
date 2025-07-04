@@ -1,6 +1,6 @@
 // Admin Dashboard JavaScript
 // API Configuration
-const API_BASE_URL = 'https://anonsec02.pythonanywhere.com/api';
+const API_BASE_URL = 'https://livreure-web-app-backend.onrender.com/api';
 
 // Global State
 let currentAdmin = null;
