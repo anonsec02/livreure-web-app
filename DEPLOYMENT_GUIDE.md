@@ -1,79 +1,454 @@
-# دليل النشر والتشغيل - منصة Livreure
+# 🚀 دليل النشر - منصة Livreure
 
-## نظرة عامة
+## 📋 نظرة عامة
 
-يوضح هذا الدليل كيفية نشر منصة Livreure على Render، مع التركيز على نشر الواجهة الخلفية (Flask) كـ Web Service وخدمتها للواجهة الأمامية (HTML, CSS, JavaScript).
+هذا الدليل يوضح كيفية نشر منصة Livreure في بيئة الإنتاج للعمل الميداني في موريتانيا.
 
-## 1. إعداد المشروع للنشر
+## 🔧 المتطلبات الأساسية
 
-تأكد من أن مشروعك جاهز للنشر. لقد قمت بالفعل بتعديل ملف `backend/src/main.py` لخدمة ملفات الواجهة الأمامية الثابتة. هذا يعني أن الواجهة الخلفية ستكون مسؤولة عن تقديم كل من API وملفات الواجهة الأمامية.
+### الخادم
+- **نظام التشغيل**: Ubuntu 20.04+ أو CentOS 8+
+- **الذاكرة**: 2GB RAM كحد أدنى (4GB مُوصى به)
+- **التخزين**: 20GB مساحة حرة كحد أدنى
+- **المعالج**: 2 CPU cores كحد أدنى
 
-### 1.1. تحديث مسارات API في الواجهة الأمامية
+### البرمجيات المطلوبة
+- Python 3.8+
+- pip
+- Git
+- Nginx (للإنتاج)
+- Supervisor (لإدارة العمليات)
+- SSL Certificate (للأمان)
 
-عند نشر الواجهة الخلفية كـ `Web Service` على Render، ستحصل على عنوان URL خاص بها. يجب عليك تحديث `API_BASE_URL` في ملفات `script.js` و `admin-dashboard/admin-script.js` ليشير إلى هذا العنوان. على سبيل المثال، إذا كان عنوان URL الخاص بالواجهة الخلفية هو `https://your-backend-service.onrender.com`، فيجب أن يكون `API_BASE_URL` كالتالي:
+## 🛠️ خطوات النشر
 
-```javascript
-const API_BASE_URL = 'https://your-backend-service.onrender.com/api';
+### 1. إعداد الخادم
+
+```bash
+# تحديث النظام
+sudo apt update && sudo apt upgrade -y
+
+# تثبيت Python و pip
+sudo apt install python3 python3-pip python3-venv git nginx supervisor -y
+
+# إنشاء مستخدم للتطبيق
+sudo adduser livreure
+sudo usermod -aG sudo livreure
 ```
 
-**ملاحظة:** ستحتاج إلى تحديث هذا بعد نشر الواجهة الخلفية والحصول على عنوان URL الخاص بها.
+### 2. استنساخ المشروع
 
-## 2. نشر الواجهة الخلفية كـ Web Service على Render
+```bash
+# التبديل للمستخدم الجديد
+sudo su - livreure
 
-اتبع الخطوات التالية لنشر الواجهة الخلفية كـ `Web Service` على Render:
+# استنساخ المستودع
+git clone https://github.com/anonsec02/livreure-web-app.git
+cd livreure-web-app
+```
 
-1.  **سجل الدخول إلى Render:** اذهب إلى [https://render.com/](https://render.com/) وسجل الدخول إلى حسابك.
-2.  **إنشاء خدمة ويب جديدة:** في لوحة التحكم الخاصة بك، انقر على `New` ثم اختر `Web Service`.
-3.  **ربط مستودع GitHub:** اختر مستودع GitHub الخاص بك الذي يحتوي على مشروع Livreure (`anonsec02/livreure-web-app`). تأكد من أن Render لديه الأذونات اللازمة للوصول إلى المستودع.
-4.  **تكوين الخدمة:**
-    *   **Name (الاسم):** اختر اسمًا لخدمة الويب الخاصة بك (مثال: `livreure-backend`).
-    *   **Region (المنطقة):** اختر أقرب منطقة جغرافية لمستخدميك.
-    *   **Branch (الفرع):** `master` (أو الفرع الذي يحتوي على الكود الخاص بك).
-    *   **Root Directory (المجلد الرئيسي):** `backend` (هذا هو المجلد الذي يحتوي على ملفات الواجهة الخلفية الخاصة بك داخل المستودع).
-    *   **Runtime (وقت التشغيل):** `Python 3`.
-    *   **Build Command (أمر البناء):** `pip install -r requirements.txt`
-    *   **Start Command (أمر التشغيل):** `gunicorn src.main:app` (تأكد من أن `gunicorn` موجود في ملف `requirements.txt` الخاص بك).
-    *   **Health Check Path (مسار فحص الصحة):** `/api/health` (اختياري، ولكن يوصى به).
-5.  **المتغيرات البيئية (Environment Variables):**
-    *   يمكنك إضافة متغيرات بيئية هنا إذا كنت تستخدمها (مثل `DATABASE_URL` إذا كنت تستخدم قاعدة بيانات خارجية).
-6.  **إنشاء الخدمة:** انقر على `Create Web Service`.
+### 3. إعداد البيئة الافتراضية
 
-سيبدأ Render في بناء ونشر خدمتك. يمكنك مراقبة السجلات لمعرفة التقدم المحرز وأي أخطاء.
+```bash
+# إنشاء البيئة الافتراضية
+python3 -m venv venv
+source venv/bin/activate
 
-## 3. تحديث مسارات API في الواجهة الأمامية (بعد النشر)
+# تثبيت المتطلبات
+cd backend
+pip install -r requirements.txt
+pip install gunicorn  # خادم WSGI للإنتاج
+```
 
-بمجرد نشر الواجهة الخلفية بنجاح، ستحصل على عنوان URL عام لها (مثال: `https://livreure-backend.onrender.com`).
+### 4. إعداد قاعدة البيانات
 
-1.  **احصل على عنوان URL للواجهة الخلفية:** من لوحة تحكم Render، انتقل إلى خدمة الويب الخاصة بالواجهة الخلفية وانسخ عنوان URL الخاص بها.
-2.  **عدّل ملفات الواجهة الأمامية محليًا:**
-    *   افتح ملف `script.js` في مجلد `livreure-enhanced`.
-    *   ابحث عن السطر الذي يحدد `API_BASE_URL` وقم بتحديثه ليتضمن عنوان URL الجديد للواجهة الخلفية، متبوعًا بـ `/api`:
-        ```javascript
-        const API_BASE_URL = 'https://your-backend-service.onrender.com/api';
-        ```
-    *   كرر نفس الخطوة لملف `admin-dashboard/admin-script.js`.
-3.  **رفع التغييرات إلى GitHub:** بعد تحديث مسارات API، قم برفع هذه التغييرات إلى مستودع GitHub الخاص بك.
+```bash
+# إنشاء قاعدة البيانات والبيانات التجريبية
+python seed_data.py
 
-بما أن الواجهة الخلفية تخدم الآن ملفات الواجهة الأمامية، فإن أي تحديثات للواجهة الأمامية ستحتاج إلى رفعها إلى نفس المستودع، وسيقوم Render بإعادة بناء ونشر خدمة الويب الخاصة بك تلقائيًا.
+# للإنتاج، يُنصح بالترقية إلى PostgreSQL
+# pip install psycopg2-binary
+```
 
-## 4. اختبار المنصة على Render
+### 5. إعداد متغيرات البيئة
 
-بعد اكتمال النشر، يمكنك زيارة عنوان URL الخاص بخدمة الويب الخاصة بالواجهة الخلفية (الذي يخدم الآن الواجهة الأمامية أيضًا) في متصفحك. يجب أن ترى الواجهة الأمامية تعمل بشكل صحيح، ويجب أن تكون جميع وظائف API متصلة بالواجهة الخلفية.
+```bash
+# إنشاء ملف البيئة
+cat > /home/livreure/livreure-web-app/backend/.env << EOF
+# Production Environment Variables
+DATABASE_URL=sqlite:///livreure_production.db
+SECRET_KEY=$(python -c 'import secrets; print(secrets.token_hex(32))')
+JWT_SECRET=$(python -c 'import secrets; print(secrets.token_hex(32))')
+PORT=5000
+DEBUG=False
+FLASK_ENV=production
 
-## 5. حسابات الاختبار
+# Security Settings
+SECURE_SSL_REDIRECT=True
+SESSION_COOKIE_SECURE=True
+CSRF_COOKIE_SECURE=True
 
-يمكنك استخدام حسابات الاختبار التالية:
+# Mauritanian Settings
+DEFAULT_TIMEZONE=Africa/Nouakchott
+DEFAULT_CURRENCY=MRU
+DEFAULT_LANGUAGE=ar
+EOF
+```
 
-*   **عميل:** `ahmed@customer.mr` / `customer123`
-*   **مطعم:** `sahara@restaurant.mr` / `restaurant123`
-*   **وكيل توصيل:** `abdullah@delivery.mr` / `delivery123`
-*   **إدارة:** `admin@livreure.mr` / `admin123`
+### 6. إعداد Gunicorn
 
-## 6. ملاحظات إضافية
+```bash
+# إنشاء ملف تكوين Gunicorn
+cat > /home/livreure/livreure-web-app/backend/gunicorn.conf.py << EOF
+# Gunicorn Configuration for Livreure
+bind = "127.0.0.1:5000"
+workers = 3
+worker_class = "sync"
+worker_connections = 1000
+max_requests = 1000
+max_requests_jitter = 100
+timeout = 30
+keepalive = 2
+preload_app = True
+user = "livreure"
+group = "livreure"
+tmp_upload_dir = None
+errorlog = "/var/log/livreure/error.log"
+accesslog = "/var/log/livreure/access.log"
+loglevel = "info"
+EOF
 
-*   **قاعدة البيانات:** إذا كنت تستخدم قاعدة بيانات خارجية (مثل PostgreSQL أو MySQL)، فتأكد من تكوين `DATABASE_URL` كمتغير بيئي في Render.
-*   **تحديثات الواجهة الأمامية:** بما أن الواجهة الخلفية تخدم الواجهة الأمامية، فإن أي تغييرات في الواجهة الأمامية تتطلب رفع التغييرات إلى GitHub، مما سيؤدي إلى إعادة بناء خدمة الويب.
-*   **Render Free Tier:** قد تكون هناك قيود على الطبقة المجانية من Render، مثل وقت السكون بعد فترة من عدم النشاط. قد تحتاج إلى الترقية لخطة مدفوعة لتطبيق جاهز للإنتاج.
+# إنشاء مجلد السجلات
+sudo mkdir -p /var/log/livreure
+sudo chown livreure:livreure /var/log/livreure
+```
+
+### 7. إعداد Supervisor
+
+```bash
+# إنشاء ملف تكوين Supervisor
+sudo cat > /etc/supervisor/conf.d/livreure.conf << EOF
+[program:livreure]
+command=/home/livreure/livreure-web-app/venv/bin/gunicorn -c gunicorn.conf.py src.main:app
+directory=/home/livreure/livreure-web-app/backend
+user=livreure
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/var/log/livreure/supervisor.log
+environment=PATH="/home/livreure/livreure-web-app/venv/bin"
+EOF
+
+# إعادة تحميل Supervisor
+sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl start livreure
+```
+
+### 8. إعداد Nginx
+
+```bash
+# إنشاء ملف تكوين Nginx
+sudo cat > /etc/nginx/sites-available/livreure << EOF
+server {
+    listen 80;
+    server_name your-domain.com www.your-domain.com;
+    
+    # Redirect HTTP to HTTPS
+    return 301 https://\$server_name\$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name your-domain.com www.your-domain.com;
+    
+    # SSL Configuration
+    ssl_certificate /path/to/your/certificate.crt;
+    ssl_certificate_key /path/to/your/private.key;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384;
+    ssl_prefer_server_ciphers off;
+    ssl_session_cache shared:SSL:10m;
+    
+    # Security Headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "no-referrer-when-downgrade" always;
+    add_header Content-Security-Policy "default-src 'self' http: https: data: blob: 'unsafe-inline'" always;
+    
+    # Gzip Compression
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript application/javascript application/xml+rss application/json;
+    
+    # Static Files
+    location /static/ {
+        alias /home/livreure/livreure-web-app/;
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+    
+    # API Routes
+    location /api/ {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+    
+    # Auth Routes
+    location /auth/ {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+    
+    # Main Application
+    location / {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+    
+    # Admin Dashboard
+    location /admin-dashboard/ {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+}
+EOF
+
+# تفعيل الموقع
+sudo ln -s /etc/nginx/sites-available/livreure /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+### 9. إعداد SSL Certificate
+
+```bash
+# باستخدام Let's Encrypt (مجاني)
+sudo apt install certbot python3-certbot-nginx -y
+sudo certbot --nginx -d your-domain.com -d www.your-domain.com
+
+# إعداد التجديد التلقائي
+sudo crontab -e
+# إضافة السطر التالي:
+# 0 12 * * * /usr/bin/certbot renew --quiet
+```
+
+### 10. إعداد Firewall
+
+```bash
+# تفعيل UFW
+sudo ufw enable
+
+# السماح بالمنافذ المطلوبة
+sudo ufw allow ssh
+sudo ufw allow 'Nginx Full'
+sudo ufw allow 22
+sudo ufw allow 80
+sudo ufw allow 443
+
+# عرض الحالة
+sudo ufw status
+```
+
+## 🔄 التحديثات والصيانة
+
+### تحديث التطبيق
+
+```bash
+# التبديل للمستخدم
+sudo su - livreure
+cd livreure-web-app
+
+# سحب التحديثات
+git pull origin master
+
+# تفعيل البيئة الافتراضية
+source venv/bin/activate
+
+# تحديث المتطلبات
+cd backend
+pip install -r requirements.txt
+
+# إعادة تشغيل التطبيق
+sudo supervisorctl restart livreure
+```
+
+### النسخ الاحتياطي
+
+```bash
+# إنشاء سكريبت النسخ الاحتياطي
+cat > /home/livreure/backup.sh << EOF
+#!/bin/bash
+DATE=\$(date +%Y%m%d_%H%M%S)
+BACKUP_DIR="/home/livreure/backups"
+mkdir -p \$BACKUP_DIR
+
+# نسخ احتياطي لقاعدة البيانات
+cp /home/livreure/livreure-web-app/backend/livreure_production.db \$BACKUP_DIR/db_backup_\$DATE.db
+
+# نسخ احتياطي للملفات
+tar -czf \$BACKUP_DIR/files_backup_\$DATE.tar.gz /home/livreure/livreure-web-app
+
+# حذف النسخ القديمة (أكثر من 30 يوم)
+find \$BACKUP_DIR -name "*.db" -mtime +30 -delete
+find \$BACKUP_DIR -name "*.tar.gz" -mtime +30 -delete
+
+echo "Backup completed: \$DATE"
+EOF
+
+chmod +x /home/livreure/backup.sh
+
+# إضافة إلى crontab للتشغيل اليومي
+crontab -e
+# إضافة السطر التالي:
+# 0 2 * * * /home/livreure/backup.sh
+```
+
+## 📊 المراقبة والسجلات
+
+### عرض السجلات
+
+```bash
+# سجلات التطبيق
+sudo tail -f /var/log/livreure/error.log
+sudo tail -f /var/log/livreure/access.log
+
+# سجلات Supervisor
+sudo tail -f /var/log/livreure/supervisor.log
+
+# سجلات Nginx
+sudo tail -f /var/log/nginx/access.log
+sudo tail -f /var/log/nginx/error.log
+```
+
+### مراقبة الأداء
+
+```bash
+# حالة التطبيق
+sudo supervisorctl status livreure
+
+# استخدام الموارد
+htop
+df -h
+free -h
+
+# اتصالات الشبكة
+sudo netstat -tulpn | grep :5000
+sudo netstat -tulpn | grep :80
+sudo netstat -tulpn | grep :443
+```
+
+## 🔒 الأمان
+
+### إعدادات الأمان الإضافية
+
+```bash
+# تحديث النظام بانتظام
+sudo apt update && sudo apt upgrade -y
+
+# تثبيت fail2ban لحماية SSH
+sudo apt install fail2ban -y
+
+# إعداد fail2ban
+sudo cat > /etc/fail2ban/jail.local << EOF
+[DEFAULT]
+bantime = 3600
+findtime = 600
+maxretry = 3
+
+[sshd]
+enabled = true
+port = ssh
+logpath = /var/log/auth.log
+maxretry = 3
+EOF
+
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
+```
+
+### مراقبة الأمان
+
+```bash
+# فحص محاولات الدخول المشبوهة
+sudo grep "Failed password" /var/log/auth.log
+
+# فحص حالة fail2ban
+sudo fail2ban-client status
+sudo fail2ban-client status sshd
+```
+
+## 🌍 إعدادات موريتانيا المحددة
+
+### المنطقة الزمنية
+
+```bash
+# تعيين المنطقة الزمنية لموريتانيا
+sudo timedatectl set-timezone Africa/Nouakchott
+```
+
+### اللغة والترميز
+
+```bash
+# إعداد اللغة العربية
+sudo apt install language-pack-ar -y
+sudo locale-gen ar_MR.UTF-8
+```
+
+## 📞 الدعم والمساعدة
+
+### معلومات الاتصال
+- **المطور**: ra-one02
+- **Telegram**: [@raone_002](https://t.me/raone_002)
+- **GitHub**: [anonsec02](https://github.com/anonsec02)
+
+### الأخطاء الشائعة وحلولها
+
+#### خطأ في الاتصال بقاعدة البيانات
+```bash
+# التحقق من صلاحيات الملفات
+sudo chown -R livreure:livreure /home/livreure/livreure-web-app
+chmod 644 /home/livreure/livreure-web-app/backend/livreure_production.db
+```
+
+#### خطأ في تشغيل Gunicorn
+```bash
+# التحقق من السجلات
+sudo supervisorctl tail livreure stderr
+
+# إعادة تشغيل الخدمة
+sudo supervisorctl restart livreure
+```
+
+#### مشاكل SSL
+```bash
+# تجديد الشهادة
+sudo certbot renew --dry-run
+
+# التحقق من تاريخ انتهاء الصلاحية
+sudo certbot certificates
+```
 
 ---
+
+**ملاحظة**: هذا الدليل مُعد خصيصاً للنشر في البيئة الموريتانية. تأكد من تخصيص الإعدادات حسب احتياجاتك المحددة.
+
+🇲🇷 **Livreure** - منصة التوصيل الأولى في موريتانيا
 
