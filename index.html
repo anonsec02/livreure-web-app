@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livreure - منصة التوصيل الموريتانية الرائدة</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="./logo.png">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <img src="./logo.png" alt="Livreure" class="loading-logo">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">جاري التحميل...</p>
+        </div>
+    </div>
+
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="lang-btn active" data-lang="ar">العربية</button>
+        <button class="lang-btn" data-lang="fr">Français</button>
+        <button class="lang-btn" data-lang="en">English</button>
+    </div>
+
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="screen active">
+        <div class="welcome-container">
+            <div class="welcome-hero">
+                <div class="hero-content">
+                    <img src="./logo.png" alt="Livreure" class="hero-logo">
+                    <h1 class="hero-title">مرحباً بك في Livreure</h1>
+                    <p class="hero-subtitle">منصة التوصيل الموريتانية الرائدة</p>
+                    <p class="hero-description">اطلب طعامك المفضل من أفضل المطاعم في موريتانيا واستمتع بخدمة توصيل سريعة وموثوقة</p>
+                </div>
+                <div class="hero-image">
+                    <div class="floating-cards">
+                        <div class="food-card card-1">
+                            <i class="fas fa-hamburger"></i>
+                            <span>وجبات سريعة</span>
+                        </div>
+                        <div class="food-card card-2">
+                            <i class="fas fa-pizza-slice"></i>
+                            <span>بيتزا</span>
+                        </div>
+                        <div class="food-card card-3">
+                            <i class="fas fa-ice-cream"></i>
+                            <span>حلويات</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="user-type-selection">
+                <h2>اختر نوع حسابك</h2>
+                <div class="user-types">
+                    <div class="user-type-card" onclick="showUserForm('customer')">
+                        <div class="card-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>عميل</h3>
+                        <p>اطلب طعامك المفضل</p>
+                        <div class="card-arrow">
+                            <i class="fas fa-arrow-left"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="user-type-card" onclick="showUserForm('restaurant')">
+                        <div class="card-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3>مطعم</h3>
+                        <p>انضم كشريك مطعم</p>
+                        <div class="card-arrow">
+                            <i class="fas fa-arrow-left"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="user-type-card" onclick="showUserForm('delivery')">
+                        <div class="card-icon">
+                            <i class="fas fa-motorcycle"></i>
+                        </div>
+                        <h3>وكيل توصيل</h3>
+                        <p>اعمل معنا كوكيل توصيل</p>
+                        <div class="card-arrow">
+                            <i class="fas fa-arrow-left"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login/Register Screen -->
+    <div id="auth-screen" class="screen">
+        <div class="auth-container">
+            <div class="auth-header">
+                <button class="back-btn" onclick="showWelcomeScreen()">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <img src="./logo.png" alt="Livreure" class="auth-logo">
+                <h1 id="auth-title">تسجيل الدخول</h1>
+                <p id="auth-subtitle">أدخل بياناتك للمتابعة</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">تسجيل الدخول</button>
+                <button class="auth-tab" onclick="switchAuthTab('register')">إنشاء حساب</button>
+            </div>
+            
+            <form class="auth-form" id="auth-form">
+                <div class="form-group" id="name-group" style="display: none;">
+                    <label for="name">الاسم الكامل</label>
+                    <input type="text" id="name" placeholder="أدخل اسمك الكامل">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">البريد الإلكتروني</label>
+                    <input type="email" id="email" placeholder="أدخل بريدك الإلكتروني" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <div class="password-input">
+                        <input type="password" id="password" placeholder="أدخل كلمة المرور" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group" id="confirm-password-group" style="display: none;">
+                    <label for="confirm-password">تأكيد كلمة المرور</label>
+                    <input type="password" id="confirm-password" placeholder="أعد إدخال كلمة المرور">
+                </div>
+                
+                <div class="form-group" id="phone-group" style="display: none;">
+                    <label for="phone">رقم الهاتف</label>
+                    <input type="tel" id="phone" placeholder="+222 XX XX XX XX">
+                </div>
+                
+                <button type="submit" class="auth-btn" id="auth-btn">تسجيل الدخول</button>
+                
+                <div class="auth-options">
+                    <a href="#" onclick="showForgotPassword()">نسيت كلمة المرور؟</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Customer Dashboard -->
+    <div id="customer-dashboard" class="screen dashboard">
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <img src="./logo.png" alt="Livreure" class="header-logo">
+                    <div class="header-info">
+                        <h2>مرحباً، <span id="customer-name">أحمد</span></h2>
+                        <p>ماذا تريد أن تطلب اليوم؟</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="user-menu">
+                        <button class="user-menu-btn" onclick="toggleUserMenu()">
+                            <img src="https://via.placeholder.com/40x40/D4AF37/000000?text=A" alt="User" class="user-avatar">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="user-menu-dropdown">
+                            <a href="#" onclick="showProfile()"><i class="fas fa-user"></i> الملف الشخصي</a>
+                            <a href="#" onclick="showOrders()"><i class="fas fa-shopping-bag"></i> طلباتي</a>
+                            <a href="#" onclick="showSettings()"><i class="fas fa-cog"></i> الإعدادات</a>
+                            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="dashboard-main">
+            <div class="search-section">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="ابحث عن مطعم أو وجبة..." id="search-input">
+                    <button class="filter-toggle" onclick="toggleFilters()">
+                        <i class="fas fa-filter"></i>
+                    </button>
+                </div>
+                
+                <div class="filters-panel" id="filters-panel">
+                    <div class="filter-group">
+                        <h4>التصنيف</h4>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-category="all">الكل</button>
+                            <button class="filter-btn" data-category="fast-food">وجبات سريعة</button>
+                            <button class="filter-btn" data-category="traditional">تقليدي</button>
+                            <button class="filter-btn" data-category="desserts">حلويات</button>
+                            <button class="filter-btn" data-category="drinks">مشروبات</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h4>السعر</h4>
+                        <div class="price-range">
+                            <input type="range" min="0" max="5000" value="2500" class="price-slider">
+                            <div class="price-labels">
+                                <span>0 أوقية</span>
+                                <span>5000 أوقية</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h4>التقييم</h4>
+                        <div class="rating-filter">
+                            <button class="rating-btn" data-rating="4">4+ نجوم</button>
+                            <button class="rating-btn" data-rating="3">3+ نجوم</button>
+                            <button class="rating-btn" data-rating="2">2+ نجوم</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="categories-section">
+                <h3>التصنيفات الشائعة</h3>
+                <div class="categories-grid">
+                    <div class="category-card" data-category="fast-food">
+                        <div class="category-icon">
+                            <i class="fas fa-hamburger"></i>
+                        </div>
+                        <span>وجبات سريعة</span>
+                    </div>
+                    <div class="category-card" data-category="pizza">
+                        <div class="category-icon">
+                            <i class="fas fa-pizza-slice"></i>
+                        </div>
+                        <span>بيتزا</span>
+                    </div>
+                    <div class="category-card" data-category="traditional">
+                        <div class="category-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <span>أكلات تقليدية</span>
+                    </div>
+                    <div class="category-card" data-category="desserts">
+                        <div class="category-icon">
+                            <i class="fas fa-ice-cream"></i>
+                        </div>
+                        <span>حلويات</span>
+                    </div>
+                    <div class="category-card" data-category="drinks">
+                        <div class="category-icon">
+                            <i class="fas fa-coffee"></i>
+                        </div>
+                        <span>مشروبات</span>
+                    </div>
+                    <div class="category-card" data-category="healthy">
+                        <div class="category-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <span>صحي</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="restaurants-section">
+                <div class="section-header">
+                    <h3>المطاعم القريبة منك</h3>
+                    <button class="view-all-btn">عرض الكل</button>
+                </div>
+                <div class="restaurants-grid" id="restaurants-grid">
+                    <!-- Restaurants will be loaded here -->
+                </div>
+            </div>
+
+            <div class="featured-section">
+                <h3>العروض المميزة</h3>
+                <div class="featured-grid">
+                    <div class="featured-card">
+                        <div class="featured-image">
+                            <img src="https://via.placeholder.com/300x200/D4AF37/000000?text=عرض+خاص" alt="عرض خاص">
+                            <div class="discount-badge">خصم 30%</div>
+                        </div>
+                        <div class="featured-content">
+                            <h4>عرض خاص على الوجبات السريعة</h4>
+                            <p>احصل على خصم 30% على جميع الوجبات السريعة</p>
+                            <button class="order-btn">اطلب الآن</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Cart Sidebar -->
+        <div class="cart-sidebar" id="cart-sidebar">
+            <div class="cart-header">
+                <h3>سلة التسوق</h3>
+                <button class="close-cart" onclick="toggleCart()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will be loaded here -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>المجموع: <strong id="cart-total">0 أوقية</strong></span>
+                </div>
+                <button class="checkout-btn" onclick="proceedToCheckout()">
+                    <i class="fas fa-credit-card"></i>
+                    إتمام الطلب
+                </button>
+            </div>
+        </div>
+
+        <!-- Floating Cart Button -->
+        <button class="floating-cart-btn" onclick="toggleCart()" id="floating-cart-btn">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cart-count">0</span>
+        </button>
+    </div>
+
+    <!-- Restaurant Dashboard -->
+    <div id="restaurant-dashboard" class="screen dashboard">
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <img src="./logo.png" alt="Livreure" class="header-logo">
+                    <div class="header-info">
+                        <h2 id="restaurant-name">مطعم الصحراء</h2>
+                        <p>إدارة مطعمك بسهولة</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="restaurant-status">
+                        <label class="switch">
+                            <input type="checkbox" id="restaurant-status-toggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <span>مفتوح</span>
+                    </div>
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">5</span>
+                    </button>
+                    <div class="user-menu">
+                        <button class="user-menu-btn" onclick="toggleUserMenu()">
+                            <img src="https://via.placeholder.com/40x40/D4AF37/000000?text=R" alt="Restaurant" class="user-avatar">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="user-menu-dropdown">
+                            <a href="#" onclick="showRestaurantProfile()"><i class="fas fa-store"></i> معلومات المطعم</a>
+                            <a href="#" onclick="showRestaurantSettings()"><i class="fas fa-cog"></i> الإعدادات</a>
+                            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="dashboard-main">
+            <div class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="today-orders">24</h3>
+                            <p>طلبات اليوم</p>
+                            <span class="stat-change positive">+12%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="pending-orders">5</h3>
+                            <p>طلبات معلقة</p>
+                            <span class="stat-change">-</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="today-revenue">12,450</h3>
+                            <p>إيرادات اليوم (أوقية)</p>
+                            <span class="stat-change positive">+8%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="restaurant-rating">4.8</h3>
+                            <p>تقييم المطعم</p>
+                            <span class="stat-change positive">+0.2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="restaurant-tabs">
+                <button class="tab-btn active" onclick="showRestaurantTab('orders')">
+                    <i class="fas fa-list"></i>
+                    الطلبات
+                </button>
+                <button class="tab-btn" onclick="showRestaurantTab('menu')">
+                    <i class="fas fa-utensils"></i>
+                    القائمة
+                </button>
+                <button class="tab-btn" onclick="showRestaurantTab('analytics')">
+                    <i class="fas fa-chart-bar"></i>
+                    التحليلات
+                </button>
+                <button class="tab-btn" onclick="showRestaurantTab('reviews')">
+                    <i class="fas fa-comments"></i>
+                    التقييمات
+                </button>
+            </div>
+
+            <div id="restaurant-orders-tab" class="tab-content active">
+                <div class="orders-header">
+                    <h3>الطلبات الحالية</h3>
+                    <div class="orders-filters">
+                        <button class="filter-btn active" data-status="all">الكل</button>
+                        <button class="filter-btn" data-status="pending">معلق</button>
+                        <button class="filter-btn" data-status="preparing">قيد التحضير</button>
+                        <button class="filter-btn" data-status="ready">جاهز</button>
+                    </div>
+                </div>
+                <div class="orders-list" id="restaurant-orders-list">
+                    <!-- Orders will be loaded here -->
+                </div>
+            </div>
+
+            <div id="restaurant-menu-tab" class="tab-content">
+                <div class="menu-header">
+                    <h3>إدارة القائمة</h3>
+                    <button class="add-item-btn" onclick="showAddItemModal()">
+                        <i class="fas fa-plus"></i>
+                        إضافة عنصر جديد
+                    </button>
+                </div>
+                <div class="menu-categories">
+                    <div class="category-tabs">
+                        <button class="category-tab active" data-category="all">الكل</button>
+                        <button class="category-tab" data-category="main">الأطباق الرئيسية</button>
+                        <button class="category-tab" data-category="appetizers">المقبلات</button>
+                        <button class="category-tab" data-category="desserts">الحلويات</button>
+                        <button class="category-tab" data-category="drinks">المشروبات</button>
+                    </div>
+                </div>
+                <div class="menu-items-grid" id="menu-items-grid">
+                    <!-- Menu items will be loaded here -->
+                </div>
+            </div>
+
+            <div id="restaurant-analytics-tab" class="tab-content">
+                <div class="analytics-header">
+                    <h3>تحليلات الأداء</h3>
+                    <div class="date-range-picker">
+                        <select id="analytics-period">
+                            <option value="today">اليوم</option>
+                            <option value="week">هذا الأسبوع</option>
+                            <option value="month">هذا الشهر</option>
+                            <option value="year">هذا العام</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="analytics-grid">
+                    <div class="chart-card">
+                        <h4>المبيعات اليومية</h4>
+                        <div class="chart-placeholder">
+                            <canvas id="sales-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h4>الأطباق الأكثر طلباً</h4>
+                        <div class="popular-items">
+                            <div class="popular-item">
+                                <span class="item-name">برجر كلاسيك</span>
+                                <span class="item-count">45 طلب</span>
+                            </div>
+                            <div class="popular-item">
+                                <span class="item-name">بيتزا مارجريتا</span>
+                                <span class="item-count">32 طلب</span>
+                            </div>
+                            <div class="popular-item">
+                                <span class="item-name">سلطة قيصر</span>
+                                <span class="item-count">28 طلب</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="restaurant-reviews-tab" class="tab-content">
+                <div class="reviews-header">
+                    <h3>تقييمات العملاء</h3>
+                    <div class="reviews-summary">
+                        <div class="rating-overview">
+                            <div class="overall-rating">
+                                <span class="rating-number">4.8</span>
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="reviews-count">(127 تقييم)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reviews-list" id="reviews-list">
+                    <!-- Reviews will be loaded here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Delivery Dashboard -->
+    <div id="delivery-dashboard" class="screen dashboard">
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <img src="./logo.png" alt="Livreure" class="header-logo">
+                    <div class="header-info">
+                        <h2 id="delivery-name">عبد الله أحمد</h2>
+                        <p>وكيل توصيل</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="delivery-status">
+                        <label class="switch">
+                            <input type="checkbox" id="delivery-status-toggle">
+                            <span class="slider"></span>
+                        </label>
+                        <span id="status-text">غير متاح</span>
+                    </div>
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">2</span>
+                    </button>
+                    <div class="user-menu">
+                        <button class="user-menu-btn" onclick="toggleUserMenu()">
+                            <img src="https://via.placeholder.com/40x40/D4AF37/000000?text=D" alt="Delivery" class="user-avatar">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="user-menu-dropdown">
+                            <a href="#" onclick="showDeliveryProfile()"><i class="fas fa-user"></i> الملف الشخصي</a>
+                            <a href="#" onclick="showDeliveryEarnings()"><i class="fas fa-money-bill"></i> الأرباح</a>
+                            <a href="#" onclick="showDeliverySettings()"><i class="fas fa-cog"></i> الإعدادات</a>
+                            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="dashboard-main">
+            <div class="delivery-stats">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-motorcycle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="completed-deliveries">18</h3>
+                            <p>توصيلات مكتملة</p>
+                            <span class="stat-change positive">+3</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="today-earnings">2,850</h3>
+                            <p>أرباح اليوم (أوقية)</p>
+                            <span class="stat-change positive">+450</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="delivery-rating">4.9</h3>
+                            <p>تقييمك</p>
+                            <span class="stat-change positive">+0.1</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="avg-delivery-time">18</h3>
+                            <p>متوسط وقت التوصيل (دقيقة)</p>
+                            <span class="stat-change negative">-2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="delivery-tabs">
+                <button class="tab-btn active" onclick="showDeliveryTab('available')">
+                    <i class="fas fa-list"></i>
+                    الطلبات المتاحة
+                </button>
+                <button class="tab-btn" onclick="showDeliveryTab('current')">
+                    <i class="fas fa-route"></i>
+                    الطلب الحالي
+                </button>
+                <button class="tab-btn" onclick="showDeliveryTab('history')">
+                    <i class="fas fa-history"></i>
+                    السجل
+                </button>
+                <button class="tab-btn" onclick="showDeliveryTab('earnings')">
+                    <i class="fas fa-chart-line"></i>
+                    الأرباح
+                </button>
+            </div>
+
+            <div id="delivery-available-tab" class="tab-content active">
+                <div class="available-orders-header">
+                    <h3>الطلبات المتاحة للتوصيل</h3>
+                    <div class="location-info">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>موقعك الحالي: نواكشوط، الرياض</span>
+                    </div>
+                </div>
+                <div class="available-orders-list" id="available-orders-list">
+                    <!-- Available orders will be loaded here -->
+                </div>
+            </div>
+
+            <div id="delivery-current-tab" class="tab-content">
+                <div class="current-delivery" id="current-delivery">
+                    <!-- Current delivery will be loaded here -->
+                </div>
+            </div>
+
+            <div id="delivery-history-tab" class="tab-content">
+                <div class="delivery-history" id="delivery-history">
+                    <!-- Delivery history will be loaded here -->
+                </div>
+            </div>
+
+            <div id="delivery-earnings-tab" class="tab-content">
+                <div class="earnings-overview">
+                    <h3>نظرة عامة على الأرباح</h3>
+                    <div class="earnings-chart">
+                        <canvas id="earnings-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="restaurant-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-restaurant-name"></h3>
+                <button class="close-modal" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="restaurant-details">
+                <!-- Restaurant details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Chat Widget -->
+    <div class="support-chat-widget">
+        <button class="chat-toggle" onclick="toggleSupportChat()">
+            <i class="fas fa-comments"></i>
+        </button>
+        <div class="chat-window" id="chat-window">
+            <div class="chat-header">
+                <h4>الدعم الفني</h4>
+                <button class="close-chat" onclick="toggleSupportChat()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message bot-message">
+                    <p>مرحباً! كيف يمكنني مساعدتك؟</p>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="اكتب رسالتك..." id="chat-input-field">
+                <button onclick="sendChatMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <img src="./logo.png" alt="Livreure" class="footer-logo">
+                <p>منصة التوصيل الموريتانية الرائدة</p>
+            </div>
+            <div class="footer-section">
+                <h4>روابط سريعة</h4>
+                <ul>
+                    <li><a href="#about">من نحن</a></li>
+                    <li><a href="#contact">اتصل بنا</a></li>
+                    <li><a href="#privacy">سياسة الخصوصية</a></li>
+                    <li><a href="#terms">الشروط والأحكام</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>تواصل معنا</h4>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone"></i> +222 41 37 71 31</p>
+                    <p><i class="fas fa-envelope"></i> info@livreure.mr</p>
+                    <p><i class="fas fa-map-marker-alt"></i> نواكشوط، موريتانيا</p>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>تابعنا</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Livreure. جميع الحقوق محفوظة.</p>
+            <a href="https://t.me/raone_002" target="_blank" class="made-with">
+                Made with <i class="fas fa-heart"></i> by ra-one02
+            </a>
+        </div>
+    </footer>
+
+    <script src="./script.js"></script>
+</body>
+</html>
+
